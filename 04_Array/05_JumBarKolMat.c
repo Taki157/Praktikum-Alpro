@@ -11,7 +11,7 @@ int main(){
     int baris,kolom,i,j,total;
 
     /*Algoritma*/
-    printf("=====Cek Simetri T1 dan T2=====\n");
+    printf("=====Menjumlah Semua Baris dan Kolom T=====\n");
     printf("Masukkan panjang baris tabel T : ");
     scanf("%d",&baris);
     printf("Masukkan panjang kolom tabel T : ");
