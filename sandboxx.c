@@ -1,40 +1,55 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Nama File : FrekNilTabel.c 
-// Deskripsi : Menampilkan angka yang memiliki frekuensi lebih dari 1
+// Nama File : JumBarKolMat.c 
+// Deskripsi : Menghitung dan menampilkan oprasi penjumlahan baris ke baris dan kolom ke kolom dll.
 // Pembuat  : Daffa Aly Meganendra - 24060122140140
 
-int main () {
+int main() {
     //Kamus
-    int N, sum, i, j;
-    int *T;
+    int total, i, j, c, r;
+    int **T;
+
 
 
     //Algoritma
-    printf("Masukan nilai N: ");
-    scanf("%d", &N);
 
+    printf("Masukan Nilai c: ");
+    scanf("%d", &r);
 
-    T = (int*)malloc(N*sizeof(int));
+    printf("Masukan Nilai r: ");
+    scanf("%d", &c);
 
-    for ( i = 1; i < N; i ++) {
-        scanf("%d", &T[i]);
+    T = (int**)malloc(r*sizeof(int*));
+
+    for (i = 0; i < r; i++) {
+        T[i] = (int*)malloc(c*sizeof(int));
     }
 
 
-    for (i = 1; i <= N; i++) {
-        sum = 1;
-        for (j = 2; j <= N; j++) {
-            if ((T[i] != 0) && (T[i] != T[j])) {
-                sum += 1;
-                T[j] = 0;
+    for (i = 0; i < r; i++) {
+        for (j = 0; j < c; j++) {
+            scanf("%d", &T[i][j]);
+        }
+    }
+
+    for (i = 0;i < r; i++){
+            total = 0;
+        for (j = 0; j < c; j++){
+            total += T[i][j];
+        }
+            printf("Row - %d : %d\n",i,total);
+        }
+
+        for (i = 0; i < r; i++){
+            total = 0;
+            for (j = 0;j < c; j++){
+                total += T[j][i];
             }
+            printf("Column - %d : %d\n",i,total);
         }
-        if (sum != 1) {
-            printf("%d ", T[i]);
-        }
-    }
+
+    free(T);
 
     return 0;
 }
