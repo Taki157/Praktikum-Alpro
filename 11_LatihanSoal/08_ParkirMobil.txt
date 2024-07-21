@@ -1,0 +1,133 @@
+Parkir Mobil
+
+maks 300 mobil, ada ID 1..300
+jumlah mobil selalu diupdate
+bayar :
+300 utk jam pertama, 200 utk selanjutnya
+
+INISIALISASI
+ketika tempat parkir mulai dibuka
+- inisialisasi Tab Parkir [1..300] dengan 0
+- inisialisasi indeks tempat yang tesedia
+- inisialisasi jumlah tempat yang tersedia
+MOBIL-IN
+- mencatat jam awal
+- mengalokasikan mobil di tempat parkir dan update kuota parkir
+*alokasi paling mungkin adalah :
+    - ID paling kecil
+    - Paling dekat dg pintu masuk plaza
+    - Tempat sebelah 'tetangganya' lebar
+    - random
+- alokasi paling mungkin adalah tempat dipilih oleh pemakai (brrti ada input utk booking)
+
+MOBIL-OUT
+- mencetak slip pembayaran
+- membebaskan tempat yang dialokasikan
+- update layar
+
+TERMINASI
+- resume pendapatan parkir hari input
+- occupancy rate (jumlah mobil parkir per jumlah yang tersedia)
+
+disediakan SENSOR yang dapat mengambil current clock
+
+variabel yang dibutuhkan :
+- objek mobil dan atributnya (jam, tempat_parkir, jam_datang)
+============= 
+
+type waktu : <j : integer [1..23], m : integer [1..60], d : integer [1..60]>
+type mobil : <Nomor : integer, tempat_parkir : integer, current_clock : waktu>
+=============
+procedure KonversiDetik (input Waktu : waktu, output detik : integer)
+{mengkonversi type bentukan waktu menjadi satuan detik}
+
+ALGORITMA
+    detik = Waktu.j*3600 + Waktu.m*60 + Waktu.d
+
+=============
+
+KAMUS GLOBAL
+n               : integer {jumlah mobil}
+TabParkir       : array [1..n] of integer 
+TabMobil        : array [1..300] of mobil
+Mobil           : mobil {mobil tiap unit}
+slip            : integer {berisi biaya per mobil}
+pendapatan      : integer {total pendapatan}
+occupancy_rate  : integer {pemakaian tempat rata2}
+
+=============
+procedure INISIALISASI ()
+
+KAMUS LOKAL
+    i               : integer {indeks traversal}
+    
+ALGORITMA
+    n = 0
+    pendapatan = 0
+    i traversal [1..300]
+        TabParkir[i] = 0
+
+=============
+procedure MOBIL_IN ()
+
+KAMUS LOKAL
+    i               : integer {indeks traversal}
+    pilihParkir     : integer {indeks tempat parkir yang dipilih}
+
+ALGORITMA
+    {menampilkan indeks TabParkir kosong dan jumlah mobil}
+    i traversal [1..300]
+        if (TabParkir[i] = 0) then
+            output -> i
+        else
+            output -> 0
+    output -> n
+
+    {menerima input dan cek pilihan tempat parkir}
+    input <- pilihParkir
+    if (TabParkir[pilihParkir] = 0) then
+        n = n + 1
+        TabParkir[pilihParkir] = 1
+        {memasukkan atribut mobil dan update TabMobil}
+        Mobil.Nomor = n
+        Mobil.tempat_parkir = pilihParkir
+        Mobil.current_clock = SENSORCurrentClock()
+        TabMobil[pilihParkir] = Mobil
+    else    
+        output -> "Tempat parkir penuh"
+
+=============
+procedure MOBIL_OUT ()
+
+KAMUS LOKAL
+    jam_parkir      : integer {lama waktu parkir mobil}
+
+ALGORITMA
+    {Membebaskan indeks TabParkir dan TabMobil}
+    TabParkir[Mobil.tempat_parkir] = 0
+    TabMobil[Mobil.tempat_parkir] = <0,0,<0,0,0>>
+    
+    {Menghitung biaya, cetak slip, akumulasi pendapatan}
+    jam_keluar = SENSORCurrentClock()
+    jam_parkir = KonversiDetik(Mobil.current_clock) - KonversiDetik(jam_keluar)
+
+    slip = 0
+    while (jam_parkir > 0) do
+        if (jam_parkir < 3600) then
+            slip = slip + 300
+        else
+            slip = slip + 200
+    output -> slip
+
+    pendapatan = pendapatan + slip
+
+=============
+procedure TERMINASI ()
+
+KAMUS LOKAL
+
+ALGORITMA
+    {cetak pendapatan dan occupancy rate}
+    output -> pendapatan
+    occupancy_rate = n div 300
+    output -> occupancy_rate
