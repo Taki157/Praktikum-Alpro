@@ -4,7 +4,7 @@ Informatika UNDIP 2023
 
 ## Key Features & Benefits
 
-This repository contains code and resources related to the Algorithmic Programming (Alpro) course for Informatics students at Universitas Diponegoro (UNDIP) in 2023. It provides practical examples, exercises, and solutions to help students learn and master fundamental programming concepts. Key benefits include:
+This repository contains code and resources related to the Algorithmic Programming (Alpro) course for Informatics students at Universitas Diponegoro (UNDIP) in 2024. It provides practical examples, exercises, and solutions to help students learn and master fundamental programming concepts. Key benefits include:
 
 *   **Practical Examples:** Learn by doing with hands-on coding examples.
 *   **Structured Learning:** Organized content following the course curriculum.
